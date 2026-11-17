@@ -1,0 +1,11 @@
+{
+  "name": "digital-image-processing-exam",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Public digital image processing exam preparation with complete bilingual model answers",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "check": "node tools/check.mjs"
+  }
+}

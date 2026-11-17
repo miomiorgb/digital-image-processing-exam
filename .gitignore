@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+.env
+.env.*
+!.env.example
+private-source/
+.openai/
+*.log
+*.tar.gz
+*.zip
