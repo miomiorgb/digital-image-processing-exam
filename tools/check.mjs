@@ -27,11 +27,11 @@ for (const name of ['content-a.js', 'content-b.js', 'content.js', 'model-answers
   vm.runInContext(assets.get(name), context, { filename: name });
 }
 const questions = context.window.QUESTIONS;
-const models = { ...context.window.MODEL_ANSWERS_A, ...context.window.MODEL_ANSWERS_B };
+const models = { ...context.window.MODEL_ANSWERS_A, ...context.window.MODEL_ANSWERS_B, ...context.window.MODEL_ANSWERS_RECOVERED };
 assert.equal(questions.length, 34);
 assert.equal(new Set(questions.map(q => q.id)).size, 34);
-assert.equal(questions.filter(q => q.blocked).length, 4);
-assert.equal(Object.keys(models).length, 30);
+assert.deepEqual(Array.from(questions.filter(q => q.blocked), q => q.id), [11, 19]);
+assert.equal(Object.keys(models).length, 32);
 for (const q of questions.filter(q => !q.blocked)) {
   const model = models[q.id];
   assert.ok(model?.english?.length > 300 && model?.chinese?.length > 200, `Missing complete bilingual model for Q${q.id}`);
@@ -42,10 +42,11 @@ const inlineScripts = [...offline.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.equal(inlineScripts.length, 8, 'Offline bundle should contain the flag plus seven current scripts.');
 for (const [index, script] of inlineScripts.entries()) new vm.Script(script[1], { filename: `offline-script-${index}.js` });
 assert.ok(offline.includes('window.MODEL_ANSWERS_A') && offline.includes('window.MODEL_ANSWERS_B'));
+assert.ok(offline.includes('window.MODEL_ANSWERS_RECOVERED'), 'The recovered Q1 and Q24 models must also be available offline.');
 assert.ok(!fs.existsSync(path.join(root, '.openai')), 'Private Sites metadata must not enter the public checkout.');
 assert.ok(!fs.existsSync(path.join(root, 'private-source')), 'Original private source files must not enter the public checkout.');
 const config = JSON.parse(fs.readFileSync(path.join(root, 'wrangler.jsonc'), 'utf8'));
 assert.equal(config.name, 'digital-image-processing-exam');
 assert.equal(config.assets.directory, './public');
 assert.ok(!config.main && !config.d1_databases && !config.vars, 'This is an asset-only public Worker.');
-console.log('PASS public assets, references, syntax, 34 question numbers, 30 bilingual models, offline bundle and clean static Workers configuration.');
+console.log('PASS public assets, references, syntax, 34 question numbers, 32 bilingual models, offline bundle and clean static Workers configuration.');
