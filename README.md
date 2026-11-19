@@ -6,6 +6,8 @@
 
 完整范本：[逐题作答范本](https://digital-image-processing-exam.miolearn.cn/#answers)；[第 17 题示例](https://digital-image-processing-exam.miolearn.cn/#answer/17)。
 
+老师手写照片明确标出的 20 道重点为：1、2、3、7、8、9、10、12、13、14、15、17、18、20、24、25、26、27、28、30。首页、题库和范本页提供题号总览，题目以“★ 老师重点”标记。第 5、29 题有涂改，单独标为“标记待确认”；即使通过设置加入每日练习，也不会变成老师确定的重点。第 1 题特别注明教材 2.9；第 1、24 题仍待补原题。
+
 ## 发布路线
 
 本仓库使用 **GitHub → Cloudflare Workers Builds → 自有子域名**，面向所有人公开访问，不包含 ChatGPT 登录、OpenAI Sites、Cloudflare Access 或其他账号门槛。学习进度只保存在当前浏览器，可导入导出，不上传服务器。
