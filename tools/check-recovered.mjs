@@ -72,6 +72,30 @@ test('both languages of each complete model agree with the independent calculati
  }
 });
 
+test('the written Huffman solution shows how its code table produces the row and both storage sizes',()=>{
+ const pixels=[21,21,21,95,169,243,243,243];
+ for(const language of ['english','chinese']){
+  const html=models[24][language];
+  const codes=new Map();
+  for(const [,row] of html.matchAll(/<tr>([\s\S]*?)<\/tr>/g)){
+   const cells=Array.from(row.matchAll(/<td>(.*?)<\/td>/g),match=>match[1]);
+   if(!cells.length)continue;
+   const [level,,,code,length]=cells;
+   assert.match(code,/^[01]+$/);
+   assert.equal(code.length,Number(length));
+   codes.set(Number(level),code);
+  }
+  const words=pixels.map(level=>codes.get(level));
+  assert.ok(words.every(Boolean),'Every gray level must appear in the code table');
+  const rowBits=words.join('');
+  assert.equal(rowBits.length,15);
+  const body=plain(html).replace(/\s+/g,'');
+  assert.ok(body.includes(words.join('|')),language+' codeword boundaries');
+  assert.ok(body.includes(rowBits),language+' transmitted row');
+  assert.match(body,/256\/64=4/,'Whole-byte storage must be distinguished from the continuous 60-bit stream');
+ }
+});
+
 test('study, independent recall, variants and answers all retain the actual inputs',()=>{
  for(const id of [1,24]){
   const q=questions.find(x=>x.id===id);
