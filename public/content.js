@@ -52,86 +52,14 @@ window.QUESTIONS=[...(window.CONTENT_A||[]),...(window.CONTENT_B||[]),...recover
 window.MODEL_ANSWERS_RECOVERED={
  1:{
   status:'原题数据已补齐 · 教材 2.9 完整计算参考范本',
-  english: `<p><strong>1. Find the image data.</strong> A pixel can take 256 gray levels. It needs log₂(256) = 8 bits, exactly one byte.</p>
-<pre>N = 1024 × 1024 = 1,048,576 pixels
-Image data = N × 8 = 8,388,608 bits = 1,048,576 bytes</pre>
-<p><strong>2. Count the bits sent.</strong> The link sends one start bit and one stop bit with every data byte. Each byte therefore takes 1 + 8 + 1 = 10 bits on the link.</p>
-<pre>Overhead = 2 × N = 2,097,152 bits
-Total sent = 10 × N = 10,485,760 bits</pre>
-<p>The overhead adds 2/8 = 25% to the image data. It makes up 2/10 = 20% of all the bits sent.</p>
-<p><strong>3. Convert baud to bit/s.</strong> One baud means one symbol per second. Here each symbol carries one bit, and K = 1000. The two bit rates are 56,000 bit/s and 3,000,000 bit/s.</p>
-<p><strong>4. Find the time.</strong> Divide all the bits sent, including the start and stop bits, by the bit rate.</p>
-<pre>At 56 Kbaud:
-t₁ = 10,485,760 / 56,000 = 187.245714… s ≈ 187.25 s
-
-At 3000 Kbaud:
-t₂ = 10,485,760 / 3,000,000 = 3.495253… s ≈ 3.50 s</pre>`,
-  chinese: `<p><strong>1．算原图的数据量。</strong>一个像素有 256 种灰度可选，需要 log₂(256) = 8 bit，刚好一个字节。</p>
-<pre>N = 1024 × 1024 = 1,048,576 个像素
-原图数据量 = N × 8 = 8,388,608 bit = 1,048,576 字节</pre>
-<p><strong>2．算实际发送的位数。</strong>每发一个数据字节，都要在前面加 1 个起始位，后面加 1 个停止位。发送一个字节实际要用 1 + 8 + 1 = 10 bit。</p>
-<pre>传输开销 = 2 × N = 2,097,152 bit
-总传输位数 = 10 × N = 10,485,760 bit</pre>
-<p>与原图相比，每 8 位多发 2 位，开销相当于原图的 2/8 = 25%。在实际发出的 10 位里，开销占 2/10 = 20%。</p>
-<p><strong>3．换算速率。</strong>1 波特表示每秒发送 1 个符号。本题每个符号携带 1 bit，并规定 K = 1000。两个比特率分别为 56,000 bit/s 和 3,000,000 bit/s。</p>
-<p><strong>4．求传输时间。</strong>用含起始位和停止位的总传输位数除以比特率。</p>
-<pre>56 Kbaud 时
-t₁ = 10,485,760 / 56,000 = 187.245714… s ≈ 187.25 s
-
-3000 Kbaud 时
-t₂ = 10,485,760 / 3,000,000 = 3.495253… s ≈ 3.50 s</pre>`,
+  english:'<p>The image has 256 gray levels, so each pixel requires b = log<sub>2</sub>256 = 8 bits, or one data byte. The number of pixels is N = 1024 × 1024 = 1,048,576. Thus the image payload is B = Nb = <strong>8,388,608 bits</strong> = 1,048,576 bytes.</p><p>Each byte is sent with one start bit and one stop bit, so every byte requires 8 + 1 + 1 = 10 transmitted bits. The overhead is B<sub>o</sub> = 2N = <strong>2,097,152 bits</strong>, equal to 25% of the payload or 20% of the total transmitted bits. The total transmission size is B<sub>t</sub> = 10N = <strong>10,485,760 bits</strong>.</p><p>A baud is one symbol per second. Since one symbol carries one bit and K = 1000, the bit rates are R<sub>1</sub> = 56,000 bit/s and R<sub>2</sub> = 3,000,000 bit/s. Using t = B<sub>t</sub>/R:</p><pre>t₁ = 10,485,760 / 56,000\n   = 187.245714… s ≈ 187.25 s,\nt₂ = 10,485,760 / 3,000,000\n   = 3.495253… s ≈ 3.50 s.</pre><p>Hence the required transmission times, including the specified framing overhead, are <strong>approximately 187.25 s at 56 Kbaud and 3.50 s at 3000 Kbaud</strong>. The start and stop bits are added for every byte, not just once for the entire image.</p>',
+  chinese:'<p>图像有 256 个灰度级，因此每像素需要 b = log<sub>2</sub>256 = 8 bit，正好一个数据字节。像素总数为 N = 1024 × 1024 = 1,048,576，因此原图有效数据量为 B = Nb = <strong>8,388,608 bit</strong>，即 1,048,576 byte。</p><p>每个数据字节传输时另加一个起始位和一个停止位，所以实际传输 8 + 1 + 1 = 10 bit。整幅图的传输开销 B<sub>o</sub> = 2N = <strong>2,097,152 bit</strong>，相当于有效数据量的 25%，或总传输量的 20%。总传输位数 B<sub>t</sub> = 10N = <strong>10,485,760 bit</strong>。</p><p>波特率表示每秒传输的符号数。题目明确每个符号携带 1 bit，且 K = 1000，因此比特率分别为 R<sub>1</sub> = 56,000 bit/s、R<sub>2</sub> = 3,000,000 bit/s。由 t = B<sub>t</sub>/R：</p><pre>t₁ = 10,485,760 / 56,000\n   = 187.245714… s ≈ 187.25 s，\nt₂ = 10,485,760 / 3,000,000\n   = 3.495253… s ≈ 3.50 s。</pre><p>因此，计入题目规定的起始位和停止位后，56 Kbaud 下的传输时间约为 <strong>187.25 秒</strong>，3000 Kbaud 下约为 <strong>3.50 秒</strong>。必须对每个字节都加入两位开销，最后取近似值并注明单位。</p>',
   scoring:['256 = 2⁸，每像素 8 bit；共 1,048,576 像素','有效数据量 8,388,608 bit，每字节另加起始、停止两位','开销 2,097,152 bit，总传输量 10,485,760 bit','由 one bit per symbol、K = 1000 得 56,000 与 3,000,000 bit/s','用 t = 总传输位数/比特率，求出约 187.25 s 与 3.50 s']
  },
  24:{
   status:'原题矩阵已补齐 · 教材 8.9(a)(b)(c) 完整计算参考范本',
-  english: `<p><strong>(a) Find the entropy.</strong> The image has 4 × 8 = 32 pixels. Count the gray levels 21, 95, 169 and 243. They occur 12, 4, 4 and 12 times. Divide each count by 32 to get the probabilities 3/8, 1/8, 1/8 and 3/8.</p>
-<pre>H = −Σ pᵢ log₂pᵢ
-  = −2(3/8)log₂(3/8) − 2(1/8)log₂(1/8)
-  ≈ 1.811278 bits/pixel</pre>
-<p><strong>(b) Build the Huffman tree and encode the image.</strong> Merge the two smallest counts at each step.</p>
-<pre>4 + 4 = 8
-8 + 12 = 20
-12 + 20 = 32</pre>
-<p>Label the two branches at each split 0 and 1. Read from the root to each gray level to get its codeword. One valid code is shown below. No codeword is the prefix of another, so the decoder can tell where each one ends.</p>
-<table><thead><tr><th>Gray level</th><th>Count</th><th>Probability</th><th>Code</th><th>Length</th></tr></thead><tbody><tr><td>21</td><td>12</td><td>3/8</td><td>10</td><td>2</td></tr><tr><td>95</td><td>4</td><td>1/8</td><td>110</td><td>3</td></tr><tr><td>169</td><td>4</td><td>1/8</td><td>111</td><td>3</td></tr><tr><td>243</td><td>12</td><td>3/8</td><td>0</td><td>1</td></tr></tbody></table>
-<p>Replace each pixel in the first row with its codeword, in order.</p>
-<pre>Codewords: 10 | 10 | 10 | 110 | 111 | 0 | 0 | 0
-Bits sent: 101010110111000</pre>
-<p>The bars just show the boundaries. Each row takes 15 bits. All four rows are the same, so the full stream has 4 × 15 = <strong>60 bits</strong>. A tie between counts or a swap of 0 and 1 can give a different Huffman code with the same average length.</p>
-<p><strong>(c) Find the compression ratio and coding efficiency.</strong> Weight each code length by its probability.</p>
-<pre>L̄ = (3/8)×2 + (1/8)×3 + (1/8)×3 + (3/8)×1
-  = 1.875 bits/pixel
-Original size = 32 × 8 = 256 bits
-Coded size = 32 × 1.875 = 60 bits</pre>
-<p>Compare the sizes to find the <strong>compression ratio</strong>. Compare the entropy with the average code length to find the <strong>coding efficiency</strong>.</p>
-<pre>CR = 256/60 = 8/1.875 ≈ 4.27:1
-η = H/L̄ = 1.811278…/1.875 ≈ 96.60%</pre>
-<p>The relative coding redundancy is 1−η ≈ <strong>3.40%</strong>. This measures how far the average length is above the entropy, as a fraction of the average length. The space saved is 1−60/256 = <strong>76.5625%</strong> of the original size.</p>
-<p>These results count the continuous bitstream alone. They exclude the codebook, file header and byte padding. If only whole-byte padding is added, 60 bits take 8 bytes (64 bits). The ratio then becomes 256/64 = 4:1.</p>`,
-  chinese: `<p><strong>(a) 求图像熵。</strong>原图有 4 × 8 = 32 个像素。灰度 21、95、169、243 分别出现 12、4、4、12 次。各自除以 32，得到概率 3/8、1/8、1/8、3/8。</p>
-<pre>H = −Σ pᵢ log₂pᵢ
-  = −2(3/8)log₂(3/8) − 2(1/8)log₂(1/8)
-  ≈ 1.811278 bit/pixel</pre>
-<p><strong>(b) 建 Huffman 树，再写出码流。</strong>每一步都挑出当前频次最小的两个节点，把它们合并。</p>
-<pre>4 + 4 = 8
-8 + 12 = 20
-12 + 20 = 32</pre>
-<p>把每处分叉的两条边分别标上 0 和 1。从根走到某个灰度，沿途的数字连起来就是它的码字。下面是一种合法的前缀码。每个码字都不会成为另一个码字的开头，所以解码时能确定每个码字在哪里结束。</p>
-<table><thead><tr><th>灰度</th><th>频次</th><th>概率</th><th>码字</th><th>码长</th></tr></thead><tbody><tr><td>21</td><td>12</td><td>3/8</td><td>10</td><td>2</td></tr><tr><td>95</td><td>4</td><td>1/8</td><td>110</td><td>3</td></tr><tr><td>169</td><td>4</td><td>1/8</td><td>111</td><td>3</td></tr><tr><td>243</td><td>12</td><td>3/8</td><td>0</td><td>1</td></tr></tbody></table>
-<p>按原图第一行的像素顺序，将每个灰度替换成对应码字。</p>
-<pre>逐个码字：10 | 10 | 10 | 110 | 111 | 0 | 0 | 0
-实际码流：101010110111000</pre>
-<p>竖线只标出码字边界。每行共 15 bit，四行完全相同，所以整幅图共用 4 × 15 = <strong>60 bit</strong>。频次相同时可以选择不同的节点，也可以互换左右分支的 0 和 1。这样得到的 Huffman 码表可能不同，最优平均码长相同。</p>
-<p><strong>(c) 求压缩比和编码效率。</strong>先把每个码长乘以对应概率，再求和。</p>
-<pre>L̄ = (3/8)×2 + (1/8)×3 + (1/8)×3 + (3/8)×1
-  = 1.875 bit/pixel
-原图大小 = 32 × 8 = 256 bit
-编码大小 = 32 × 1.875 = 60 bit</pre>
-<p>求<strong>压缩比</strong>，用原图大小除以编码大小。求<strong>编码效率</strong>，用图像熵除以平均码长。</p>
-<pre>CR = 256/60 = 8/1.875 ≈ 4.27:1
-η = H/L̄ = 1.811278…/1.875 ≈ 96.60%</pre>
-<p>相对编码冗余为 1−η ≈ <strong>3.40%</strong>，表示平均码长中超出熵的部分占多大比例。存储节省比例为 1−60/256 = <strong>76.5625%</strong>，表示省下的位数占原图多大比例。</p>
-<p>以上按连续码流计算，不计码表、文件头和字节补齐。如果只考虑补齐到整字节，60 bit 需要占 8 字节，即 64 bit。此时压缩比为 256/64 = 4:1。</p>`,
+  english:'<p><strong>(a) Entropy.</strong> The image contains 32 pixels. The gray levels 21, 95, 169 and 243 occur 12, 4, 4 and 12 times, respectively, so their probabilities are 3/8, 1/8, 1/8 and 3/8. Therefore,</p><pre>H = −Σ pᵢ log₂pᵢ\n  = −2(3/8)log₂(3/8) − 2(1/8)log₂(1/8)\n  ≈ 1.811278 bits/pixel.</pre><p><strong>(b) Huffman coding.</strong> Repeatedly merge the two smallest counts: 4 + 4 = 8, then 8 + 12 = 20, and finally 12 + 20 = 32. One valid binary prefix code is:</p><table><thead><tr><th>Gray level</th><th>Count</th><th>Probability</th><th>Code</th><th>Length</th></tr></thead><tbody><tr><td>21</td><td>12</td><td>3/8</td><td>10</td><td>2</td></tr><tr><td>95</td><td>4</td><td>1/8</td><td>110</td><td>3</td></tr><tr><td>169</td><td>4</td><td>1/8</td><td>111</td><td>3</td></tr><tr><td>243</td><td>12</td><td>3/8</td><td>0</td><td>1</td></tr></tbody></table><p>Each row is encoded in its original order as <code>10 | 10 | 10 | 110 | 111 | 0 | 0 | 0</code>, or <code>101010110111000</code>, giving 15 bits per row. The image consists of this sequence repeated four times, for a total of <strong>60 bits</strong>. The separators are not transmitted. Equal-weight choices and interchange of left and right branches can produce different, equally valid Huffman codes.</p><p><strong>(c) Compression and effectiveness.</strong> The average code length is L̄ = (3/8)×2 + (1/8)×3 + (1/8)×3 + (3/8)×1 = <strong>1.875 bits/pixel</strong>. The original image requires 32×8 = 256 bits. The compression ratio is CR = 256/60 = 8/1.875 ≈ <strong>4.27:1</strong>. The coding efficiency is η = H/L̄ = 1.811278124…/1.875 ≈ <strong>96.60%</strong>, and the relative coding redundancy is 1−η ≈ 3.40%. The storage reduction is instead 1−60/256 = 76.5625%; these percentages describe different quantities.</p><p>The calculation treats the code as a continuous bitstream and excludes codebook and header costs and byte padding. Padding the 60-bit stream to whole bytes alone would require 64 bits and give a 4:1 ratio; the Huffman bitstream itself still contains 60 bits.</p>',
+  chinese:'<p><strong>(a) 图像熵。</strong> 原图共有 4 × 8 = 32 个像素。灰度 21、95、169、243 的频次依次为 12、4、4、12，对应概率为 3/8、1/8、1/8、3/8。单像素熵为：</p><pre>H = −Σ pᵢ log₂pᵢ\n  = −2(3/8)log₂(3/8) − 2(1/8)log₂(1/8)\n  ≈ 1.811278 bit/pixel。</pre><p><strong>(b) Huffman 编码。</strong> 每次合并当前频次最小的两个节点：4 与 4 合并为 8，再将 8 与一个 12 合并为 20，最后将另一个 12 与 20 合并为 32。一种合法二进制前缀码如下：</p><table><thead><tr><th>灰度</th><th>频次</th><th>概率</th><th>码字</th><th>码长</th></tr></thead><tbody><tr><td>21</td><td>12</td><td>3/8</td><td>10</td><td>2</td></tr><tr><td>95</td><td>4</td><td>1/8</td><td>110</td><td>3</td></tr><tr><td>169</td><td>4</td><td>1/8</td><td>111</td><td>3</td></tr><tr><td>243</td><td>12</td><td>3/8</td><td>0</td><td>1</td></tr></tbody></table><p>按每行像素顺序编码为 <code>10 | 10 | 10 | 110 | 111 | 0 | 0 | 0</code>，拼接后为 <code>101010110111000</code>，每行共 15 bit。四行相同，因此该 15 位序列重复四次，总计 <strong>60 bit</strong>。竖线仅方便阅读，不占编码位数。相同频次的节点取舍或左右分支标号可以互换，合法 Huffman 码表不唯一。</p><p><strong>(c) 压缩比与编码效率。</strong> 平均码长 L̄ = (3/8)×2 + (1/8)×3 + (1/8)×3 + (3/8)×1 = <strong>1.875 bit/pixel</strong>。原图按每像素 8 bit 存储，故数据量为 32 × 8 = 256 bit。压缩比 CR = 256/60 = 8/1.875 ≈ <strong>4.27:1</strong>。编码效率 η = H/L̄ = 1.811278124…/1.875 ≈ <strong>96.60%</strong>，相对编码冗余为 1−η ≈ 3.40%。存储节省比例是 1−60/256 = 76.5625%，与编码冗余的含义不同。</p><p>以上按连续比特流计算，不计码表、文件头和字节补齐。若仅将 60 bit 码流补齐至整字节，则需 64 bit，此时压缩比为 4:1；Huffman 码流本身仍为 60 bit。</p>',
   scoring:['32 像素，频次 12、4、4、12 与概率 3/8、1/8、1/8、3/8','熵公式与 H ≈ 1.811278 bit/pixel','按最小频次合并，给出合法前缀码和原图编码；允许等价码表','平均码长 1.875 bit/pixel，编码总长 60 bit，原图 256 bit','压缩比约 4.27:1，编码效率约 96.60%','声明码表、文件头与补齐不计入；区分编码冗余与存储节省比例']
  }
 };

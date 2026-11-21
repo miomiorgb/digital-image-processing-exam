@@ -92,7 +92,7 @@ test('the written Huffman solution shows how its code table produces the row and
   const body=plain(html).replace(/\s+/g,'');
   assert.ok(body.includes(words.join('|')),language+' codeword boundaries');
   assert.ok(body.includes(rowBits),language+' transmitted row');
-  assert.match(body,/256\/64=4/,'Whole-byte storage must be distinguished from the continuous 60-bit stream');
+  assert.match(body,/64bits?.*?4:1/,'Whole-byte storage must be distinguished from the continuous 60-bit stream');
  }
 });
 
