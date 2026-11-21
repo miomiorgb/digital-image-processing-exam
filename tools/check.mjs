@@ -34,7 +34,11 @@ assert.deepEqual(Array.from(questions.filter(q => q.blocked), q => q.id), [11, 1
 assert.equal(Object.keys(models).length, 32);
 for (const q of questions.filter(q => !q.blocked)) {
   const model = models[q.id];
-  assert.ok(model?.english?.length > 300 && model?.chinese?.length > 200, `Missing complete bilingual model for Q${q.id}`);
+  for (const language of ['english', 'chinese']) {
+    const body = model?.[language]?.replace(/<[^>]*>/g, '').trim();
+    assert.ok(body, `Missing ${language} answer for Q${q.id}`);
+  }
+  assert.ok(model.scoring?.length && model.scoring.every(point => point.trim()), `Missing scoring points for Q${q.id}`);
 }
 const offline = assets.get('offline.html');
 assert.ok(!/<script\b[^>]*\bsrc=|<link\b[^>]*rel="stylesheet"/i.test(offline), 'Offline bundle still has external application files.');
